@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
+const path = require('path');
 
 // Charger les variables d’environnement
 dotenv.config();
@@ -28,6 +29,19 @@ app.use('/api/auth', authRoutes);
 
 const tradeRoutes = require('./routes/tradeRoutes');
 app.use('/api/trades', tradeRoutes);
+
+
+// Routes NOTES
+const noteRoutes = require('./routes/noteRoutes');
+app.use('/api/notes', noteRoutes);
+
+// Routes GOAL
+const goalRoutes = require('./routes/goalRoutes');
+app.use('/api/goals', goalRoutes);
+
+// Routes UPLOAD
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 
 

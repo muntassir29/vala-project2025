@@ -38,6 +38,13 @@ const tradeSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
+    strategy: {
+      type: String,
+      default: '',
+    },
+    screenshot: {
+      type: String, // chemin ou URL vers l’image
+},
   },
   { timestamps: true }
 );

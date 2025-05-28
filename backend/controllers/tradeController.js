@@ -2,7 +2,7 @@ const Trade = require('../models/Trade');
 
 // Créer un trade
 const createTrade = async (req, res) => {
-  const { pair, dateOpen, dateClosed, direction, result, winOrLoss, comment } = req.body;
+  const { pair, dateOpen, dateClosed, direction, result, winOrLoss, comment, strategy, } = req.body;
 
   try {
     const trade = new Trade({
@@ -13,6 +13,7 @@ const createTrade = async (req, res) => {
       result,
       winOrLoss,
       comment,
+      strategy,
       user: req.user.id, // récupéré grâce à l'auth middleware
     });
 
@@ -129,6 +130,61 @@ const searchTrades = async (req, res) => {
   }
 };
 
+// Stratégie Statistique : 
+
+const getStrategyStats = async (req, res) => {
+  try {
+    const trades = await Trade.find({ user: req.user._id });
+
+    const strategies = {};
+
+    trades.forEach(trade => {
+      const strat = trade.strategy || 'Non spécifiée';
+      if (!strategies[strat]) {
+        strategies[strat] = {
+          total: 0,
+          wins: 0,
+          losses: 0,
+          totalProfit: 0,
+          totalLoss: 0,
+        };
+      }
+
+      strategies[strat].total += 1;
+
+      if (trade.winOrLoss === 'Win') {
+        strategies[strat].wins += 1;
+        strategies[strat].totalProfit += trade.result;
+      } else if (trade.winOrLoss === 'Loss') {
+        strategies[strat].losses += 1;
+        strategies[strat].totalLoss += Math.abs(trade.result);
+      }
+    });
+
+    const result = Object.entries(strategies).map(([strategy, stats]) => {
+      const winRate = (stats.total > 0)
+        ? ((stats.wins / stats.total) * 100).toFixed(2)
+        : '0';
+
+      const profitFactor = (stats.totalLoss > 0)
+        ? (stats.totalProfit / stats.totalLoss).toFixed(2)
+        : '∞';
+
+      return {
+        strategy,
+        ...stats,
+        winRate: `${winRate}%`,
+        profitFactor
+      };
+    });
+
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ message: "Erreur lors du calcul des statistiques par stratégie" });
+  }
+};
+
+
 
 module.exports = {
   createTrade,
@@ -137,4 +193,5 @@ module.exports = {
   deleteTrade,
   getTradeStats,
   searchTrades,
+  getStrategyStats,
 };
