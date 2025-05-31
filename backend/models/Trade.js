@@ -1,6 +1,6 @@
 // backend/models/Trade.js
 
-const mongoose = require('mongoose');
+const mongoose = require ('mongoose');
 
 const tradeSchema = new mongoose.Schema(
   {
