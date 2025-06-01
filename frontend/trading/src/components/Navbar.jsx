@@ -1,42 +1,44 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
+// Navbar.jsx
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 
-export default function Navbar() {
-  const { user, logout } = useAuth()
-  const navigate = useNavigate()
-
-  function handleLogout() {
-    logout()
-    navigate('/login')
-  }
+const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-blue-600 text-white px-6 py-4 flex justify-between items-center">
-      <Link to="/" className="font-bold text-xl">
-        Trading Journal
-      </Link>
-      <div className="space-x-4">
-        {user ? (
-          <>
-            <span>Bonjour, {user.name}</span>
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 hover:bg-red-700 px-3 py-1 rounded"
-            >
-              Déconnexion
-            </button>
-          </>
-        ) : (
-          <>
-            <Link to="/login" className="hover:underline">
-              Connexion
-            </Link>
-            <Link to="/signup" className="hover:underline">
-              Inscription
-            </Link>
-          </>
-        )}
+    <header className="bg-gray-900 text-white md:hidden">
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+        <h1 className="text-xl font-bold">Trading Journal</h1>
+        <button onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
-    </nav>
-  )
-}
+      {menuOpen && (
+        <nav className="px-4 pb-4 space-y-2">
+          <Link
+            to="/dashboard"
+            className="block px-4 py-2 rounded-md hover:bg-gray-700"
+            onClick={() => setMenuOpen(false)}
+          >
+            Dashboard
+          </Link>
+        </nav>
+      )}
+    </header>
+  );
+};
+
+export default Navbar;
+
+
+
+
+
+
+
+
+
+
+
+

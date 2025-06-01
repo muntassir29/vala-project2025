@@ -1,6 +1,93 @@
+// import React, { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { Link } from 'react-router-dom';
+
+// export default function Signup() {
+//   const [fullname, setFullname] = useState("");
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [message, setMessage] = useState("");
+//   const [error, setError] = useState("");
+//   const navigate = useNavigate();
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setError("");
+//     setMessage("");
+
+//     try {
+//       const res = await fetch("http://localhost:3000/api/auth/signup", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ fullname, email, password }),
+//       });
+
+//       const data = await res.json();
+
+//       if (!res.ok) {
+//         setError(data.message || "Erreur lors de l'inscription");
+//         return;
+//       }
+
+//       setMessage("Inscription réussie, vous pouvez maintenant vous connecter.");
+      
+//       // Après un petit délai, rediriger vers login
+//       setTimeout(() => navigate("/login"), 2000);
+//     } catch (err) {
+//       setError("Erreur serveur, veuillez réessayer plus tard.");
+//     }
+//   };
+
+//   return (
+//     <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-10 p-6 border rounded">
+//       <h2 className="text-2xl font-bold mb-4">Inscription</h2>
+//       {error && <p className="text-red-600 mb-4">{error}</p>}
+//       {message && <p className="text-green-600 mb-4">{message}</p>}
+//       <input
+//         type="text"
+//         placeholder="Nom complet"
+//         value={fullname}
+//         onChange={(e) => setFullname(e.target.value)}
+//         required
+//         className="w-full p-2 mb-4 border rounded"
+//       />
+//       <input
+//         type="email"
+//         placeholder="Email"
+//         value={email}
+//         onChange={(e) => setEmail(e.target.value)}
+//         required
+//         className="w-full p-2 mb-4 border rounded"
+//       />
+//       <input
+//         type="password"
+//         placeholder="Mot de passe"
+//         value={password}
+//         onChange={(e) => setPassword(e.target.value)}
+//         required
+//         className="w-full p-2 mb-4 border rounded"
+//       />
+//       <button
+//         type="submit"
+//         className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
+//       >
+//         S'inscrire
+//       </button>
+
+//       <p className="mt-4 text-center">
+//         Déjà un compte ?{' '}
+//       <Link to="/login" className="text-blue-600 hover:underline">
+//         Connectez-vous
+//       </Link>
+//      </p>
+//     </form>
+//   );
+// }
+
+
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from "react-router-dom";
+import { UserPlus } from "lucide-react";
 
 export default function Signup() {
   const [fullname, setFullname] = useState("");
@@ -29,9 +116,7 @@ export default function Signup() {
         return;
       }
 
-      setMessage("Inscription réussie, vous pouvez maintenant vous connecter.");
-      
-      // Après un petit délai, rediriger vers login
+      setMessage("Inscription réussie ! Redirection...");
       setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       setError("Erreur serveur, veuillez réessayer plus tard.");
@@ -39,47 +124,61 @@ export default function Signup() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-10 p-6 border rounded">
-      <h2 className="text-2xl font-bold mb-4">Inscription</h2>
-      {error && <p className="text-red-600 mb-4">{error}</p>}
-      {message && <p className="text-green-600 mb-4">{message}</p>}
-      <input
-        type="text"
-        placeholder="Nom complet"
-        value={fullname}
-        onChange={(e) => setFullname(e.target.value)}
-        required
-        className="w-full p-2 mb-4 border rounded"
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-        className="w-full p-2 mb-4 border rounded"
-      />
-      <input
-        type="password"
-        placeholder="Mot de passe"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-        className="w-full p-2 mb-4 border rounded"
-      />
-      <button
-        type="submit"
-        className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 px-4">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-md bg-white p-8 rounded-2xl shadow-md"
       >
-        S'inscrire
-      </button>
+        <div className="flex items-center gap-2 mb-6">
+          <UserPlus className="text-green-600" />
+          <h2 className="text-2xl font-bold text-gray-800">Inscription</h2>
+        </div>
 
-      <p className="mt-4 text-center">
-        Déjà un compte ?{' '}
-      <Link to="/login" className="text-blue-600 hover:underline">
-        Connectez-vous
-      </Link>
-     </p>
-    </form>
+        {error && <p className="text-red-600 mb-4">{error}</p>}
+        {message && <p className="text-green-600 mb-4">{message}</p>}
+
+        <div className="space-y-4">
+          <input
+            type="text"
+            placeholder="Nom complet"
+            value={fullname}
+            onChange={(e) => setFullname(e.target.value)}
+            required
+            className="w-full border rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="w-full border rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+          <input
+            type="password"
+            placeholder="Mot de passe"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="w-full border rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="mt-6 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
+        >
+          S'inscrire
+        </button>
+
+        <p className="mt-4 text-center text-sm text-gray-600">
+          Vous avez déjà un compte ?{" "}
+          <Link to="/login" className="text-green-600 hover:underline">
+            Connectez-vous
+          </Link>
+        </p>
+      </form>
+    </div>
   );
 }
+
