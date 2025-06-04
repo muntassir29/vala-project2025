@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { createTrade, getTrades, updateTrade, deleteTrade, getTradeStats, searchTrades, getStrategyStats } = require('../controllers/tradeController');
+const { createTrade, getTrades, updateTrade, deleteTrade, getTradeStats, searchTrades, getStrategyStats, getMonthlyStats } = require('../controllers/tradeController');
 const { protect } = require('../middleware/authMiddleware');
 const upload = require('../middleware/uploadMiddleware');
 
@@ -18,6 +18,8 @@ router.get('/stats', protect, getTradeStats);
 router.get('/search', protect, searchTrades);
 // Route protégée : Shema Statistique
 router.get('/strategies/stats', protect, getStrategyStats);
+// Stats mensuelles
+router.get('/stats/monthly', protect, getMonthlyStats);
 
 
 // Route upload image (screenshot) associée à un trade

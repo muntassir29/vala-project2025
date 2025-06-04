@@ -46,21 +46,43 @@ const updateGoal = async (req, res) => {
 };
 
 // Supprimer un objectif
+
+// const deleteGoal = async (req, res) => {
+//   try {
+//     const goal = await Goal.findById(req.params.id);
+//     if (!goal) return res.status(404).json({ message: "Objectif non trouvé" });
+
+//     if (goal.user.toString() !== req.user.id) {
+//       return res.status(403).json({ message: "Non autorisé" });
+//     }
+
+//     await goal.remove();
+//     res.json({ message: "Objectif supprimé avec succès ✅" });
+//   } catch (error) {
+//     res.status(500).json({ message: 'Erreur lors de la suppression' });
+//   }
+// };
+
 const deleteGoal = async (req, res) => {
   try {
     const goal = await Goal.findById(req.params.id);
-    if (!goal) return res.status(404).json({ message: "Objectif non trouvé" });
+    if (!goal) {
+      return res.status(404).json({ message: "Objectif non trouvé" });
+    }
 
     if (goal.user.toString() !== req.user.id) {
       return res.status(403).json({ message: "Non autorisé" });
     }
 
-    await goal.remove();
+    await Goal.findByIdAndDelete(req.params.id); // ✅ suppression propre
+
     res.json({ message: "Objectif supprimé avec succès ✅" });
   } catch (error) {
-    res.status(500).json({ message: 'Erreur lors de la suppression' });
+    console.error("Erreur lors de la suppression :", error); // pour debug
+    res.status(500).json({ message: "Erreur lors de la suppression" });
   }
 };
+
 
 module.exports = {
   createGoal,

@@ -184,6 +184,66 @@ const getStrategyStats = async (req, res) => {
   }
 };
 
+const getMonthlyStats = async (req, res) => {
+  try {
+    const trades = await Trade.find({ user: req.user._id });
+
+    const monthlyStats = {};
+
+    trades.forEach(trade => {
+      const date = new Date(trade.dateOpen);
+      const month = date.toLocaleString('default', { month: 'long' });
+      const year = date.getFullYear();
+      const key = `${month} ${year}`;
+
+      if (!monthlyStats[key]) {
+        monthlyStats[key] = {
+          total: 0,
+          wins: 0,
+          losses: 0,
+          totalProfit: 0,
+          totalLoss: 0,
+        };
+      }
+
+      monthlyStats[key].total += 1;
+
+      if (trade.winOrLoss === 'Win') {
+        monthlyStats[key].wins += 1;
+        monthlyStats[key].totalProfit += trade.result;
+      } else if (trade.winOrLoss === 'Loss') {
+        monthlyStats[key].losses += 1;
+        monthlyStats[key].totalLoss += Math.abs(trade.result);
+      }
+    });
+
+    const result = Object.entries(monthlyStats).map(([month, stats]) => {
+      const winRate = stats.total > 0
+        ? ((stats.wins / stats.total) * 100).toFixed(2)
+        : '0';
+
+      const profitFactor = stats.totalLoss > 0
+        ? (stats.totalProfit / stats.totalLoss).toFixed(2)
+        : '∞';
+
+      return {
+        month,
+        ...stats,
+        winRate: `${winRate}%`,
+        profitFactor,
+      };
+    }).sort((a, b) => {
+      // Trier du plus ancien au plus récent
+      const getDate = (m) => new Date(`${m.month} 1`);
+      return getDate(a) - getDate(b);
+    });
+
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ message: "Erreur lors du calcul des stats mensuelles" });
+  }
+};
+
 
 
 module.exports = {
@@ -194,4 +254,5 @@ module.exports = {
   getTradeStats,
   searchTrades,
   getStrategyStats,
+  getMonthlyStats, // ✅ ici
 };
