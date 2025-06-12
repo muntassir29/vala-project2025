@@ -70,7 +70,7 @@ import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import Stats from "./pages/Stats";
 import Goals from "./pages/Goals";
-// import Notes from "./pages/Notes";
+import Notes from "./pages/Notes";
 
 import PrivateLayout from "./layouts/PrivateLayout";
 
@@ -94,7 +94,7 @@ const AppContent = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/stats" element={<Stats />} />
           <Route path="/goals" element={<Goals />} />
-          {/* <Route path="/notes" element={<Notes />} /> */}
+          <Route path="/notes" element={<Notes />} />
         </Route>
 
         {/* 404 */}
