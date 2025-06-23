@@ -81,10 +81,10 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="hidden md:flex flex-col w-64 bg-gray-900 text-white min-h-screen p-4">
+    <aside className="hidden md:flex flex-col w-64 bg-gradient-to-r from-[#2f3f4c] via-[#352a1e] to-[#100e0b] text-white shadow-md min-h-screen p-4">
       {/* ✅ Logo image cliquable vers le dashboard */}
       <Link to="/dashboard" className="mb-6">
-        <img src={logo} alt="Trading Journal Logo" className="h-25 w-auto" />
+        <img src={logo} alt="Trading Journal Logo" className="h-17 w-auto" />
       </Link>
 
       <nav className="flex-1 space-y-2">
