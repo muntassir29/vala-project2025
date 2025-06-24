@@ -222,9 +222,8 @@ export default function Home() {
         </section>
 
         {/* FAQ Section */}
-        <section className="max-w-4xl mx-auto px-4 mt-24">
+       <section className="max-w-4xl mx-auto px-4 mt-24 mb-16">
   <h2 className="text-4xl font-bold text-center mb-10 text-gray-800">FAQs</h2>
-
   <div className="space-y-4">
     {faqs.map((faq, index) => (
       <div
