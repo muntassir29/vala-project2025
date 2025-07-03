@@ -1,35 +1,135 @@
-// src/pages/Contact.jsx
-export default function Contact() {
+// import React from "react";
+// import emailjs from "@emailjs/browser";
+
+// export default function ContactTest() {
+//   const sendEmail = (e) => {
+//     e.preventDefault();
+
+//     emailjs
+//       .sendForm(
+//         "service_rl2tjta",
+//         "template_r83gwhg",
+//         e.target,
+//         "ksUcNdwuTHwxYojvs"
+//       )
+//       .then(
+//         (result) => alert("Email envoyé !"),
+//         (error) => alert("Erreur : " + error.text)
+//       );
+//   };
+
+//   return (
+//     <form onSubmit={sendEmail}>
+//       <input type="text" name="name" placeholder="Nom" required />
+//       <input type="email" name="email" placeholder="Email" required />
+//       <textarea name="message" placeholder="Message" required></textarea>
+//       <button type="submit">Envoyer</button>
+//     </form>
+//   );
+// }
+
+
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import emailjs from "@emailjs/browser";
+import { FiSend } from "react-icons/fi";
+import { FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
+
+export default function ContactTest() {
+  const [status, setStatus] = useState(null);
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm(
+        "service_rl2tjta",
+        "template_r83gwhg",
+        e.target,
+        "ksUcNdwuTHwxYojvs"
+      )
+      .then(
+        () => {
+          setStatus("success");
+          e.target.reset();
+        },
+        (error) => {
+          setStatus("error");
+          console.error(error.text);
+        }
+      );
+  };
+
   return (
-    <div className="max-w-3xl mx-auto px-4 py-16">
-      <h1 className="text-4xl font-bold mb-6 text-center">Contact Us</h1>
-      <p className="text-gray-700 text-lg mb-8 text-center">
-        Have questions, suggestions, or want to join our affiliate program? We’d love to hear from you!
-      </p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-6">
+      <motion.form
+        onSubmit={sendEmail}
+        className="relative w-full max-w-lg bg-white rounded-xl shadow-xl p-8 space-y-6"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <h2 className="text-3xl font-bold text-gray-800 mb-4 text-center">
+          Contactez-nous
+        </h2>
 
-      <form className="space-y-6">
-        <div>
-          <label className="block mb-2 font-medium">Your Name</label>
-          <input type="text" className="w-full border border-gray-300 px-4 py-2 rounded-md" required />
-        </div>
-
-        <div>
-          <label className="block mb-2 font-medium">Email Address</label>
-          <input type="email" className="w-full border border-gray-300 px-4 py-2 rounded-md" required />
-        </div>
-
-        <div>
-          <label className="block mb-2 font-medium">Message</label>
-          <textarea className="w-full border border-gray-300 px-4 py-2 rounded-md" rows="5" required></textarea>
-        </div>
+        <input
+          type="text"
+          name="name"
+          placeholder="Votre nom"
+          required
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400"
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Votre email"
+          required
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
+        />
+        <textarea
+          name="message"
+          placeholder="Votre message"
+          required
+          rows="5"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        ></textarea>
 
         <button
           type="submit"
-          className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
+          className="relative w-full flex items-center justify-center gap-2 py-3 text-white font-semibold rounded-full
+          bg-gradient-to-r from-pink-500 to-sky-500 shadow-lg transform transition-all duration-300
+          hover:scale-105 hover:shadow-xl hover:text-black
+          before:absolute before:inset-0 before:rounded-full
+          before:bg-gradient-to-r before:from-pink-400 before:to-sky-400 before:opacity-0 
+          hover:before:opacity-30 before:transition before:duration-300"
         >
-          Send Message
+          <FiSend className="text-xl" />
+          Envoyer le message
         </button>
-      </form>
+
+        {status === "success" && (
+          <motion.div
+            className="flex items-center gap-2 text-green-600 bg-green-100 p-3 mt-4 rounded-md border border-green-300"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            <FaCheckCircle className="text-lg" />
+            Message envoyé avec succès !
+          </motion.div>
+        )}
+        {status === "error" && (
+          <motion.div
+            className="flex items-center gap-2 text-red-600 bg-red-100 p-3 mt-4 rounded-md border border-red-300"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            <FaExclamationCircle className="text-lg" />
+            Une erreur est survenue, veuillez réessayer.
+          </motion.div>
+        )}
+      </motion.form>
     </div>
   );
 }
+

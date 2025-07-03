@@ -1,45 +1,4 @@
 
-// import TradeCard from "./TradeCard";
-
-// const TradeList = ({ trades }) => {
-//   return (
-//     <div className="mt-6">
-//       {trades.length === 0 ? (
-//         <p className="text-gray-500">Aucun trade enregistré.</p>
-//       ) : (
-//         trades.map((trade) => <TradeCard key={trade._id} trade={trade} />)
-//       )}
-//     </div>
-//   );
-// };
-
-// export default TradeList;
-
-
-// import TradeCard from "./TradeCard";
-
-// const TradeList = ({ trades, onDelete, token }) => {
-//   return (
-//     <div className="mt-6">
-//       {trades.length === 0 ? (
-//         <p className="text-gray-500">Aucun trade enregistré.</p>
-//       ) : (
-//         trades.map((trade) => (
-//           <TradeCard
-//             key={trade._id}
-//             trade={trade}
-//             onDelete={onDelete}
-//             token={token}
-//           />
-//         ))
-//       )}
-//     </div>
-//   );
-// };
-
-// export default TradeList;
-
-
 import { useState, useMemo } from "react";
 import TradeCard from "./TradeCard";
 
