@@ -38,6 +38,7 @@ const Stats = () => {
   useEffect(() => {
     fetchStats();
     fetchMonthlyStats();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchStats = async () => {
@@ -72,7 +73,6 @@ const Stats = () => {
     }
   };
 
-  // Préparation données graphiques (inchangé)
   const barData = strategyStats.map((s) => ({
     strategy: s.strategy,
     wins: s.wins,
@@ -91,8 +91,8 @@ const Stats = () => {
   }));
 
   return (
-    <div className="p-8 max-w-7xl mx-auto bg-gray-50 rounded-lg shadow-md">
-      <h1 className="text-4xl font-extrabold text-gray-900 mb-12 flex items-center gap-3">
+    <div className="p-4 sm:p-8 max-w-7xl mx-auto bg-gray-50 rounded-lg shadow-md min-h-screen">
+      <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-10 flex items-center gap-3">
         <FiPieChart className="text-indigo-600" size={40} />
         Statistiques de Trading
       </h1>
@@ -103,27 +103,26 @@ const Stats = () => {
         <p className="text-red-600 text-lg font-semibold">{error}</p>
       ) : (
         <>
-          {/* ==== TABLEAU DES STRATEGIES ==== */}
-          <div className="overflow-x-auto mb-14 shadow-lg rounded-lg border border-gray-300 bg-white">
+          {/* Tableau des stratégies */}
+          <div className="overflow-x-auto mb-16 shadow-lg rounded-lg border border-gray-300 bg-white">
             <table className="w-full table-auto border-collapse text-sm">
               <thead className="bg-gradient-to-r from-pink-500 to-sky-500 text-white">
                 <tr>
-                  <th className="px-8 py-4 text-left font-semibold">Stratégie</th>
-                  <th className="px-6 py-4 text-center font-semibold">Trades</th>
-                  <th className="px-6 py-4 text-center font-semibold">Gain Moyen (pips)</th>
-                  <th className="px-6 py-4 text-center font-semibold">Perte Moyenne (pips)</th>
-                  <th className="px-6 py-4 text-center font-semibold">RR Moyen</th>
-                  <th className="px-6 py-4 text-center font-semibold">Profit Net Total</th>
-                  <th className="px-6 py-4 text-center font-semibold">Win Rate</th>
-                  <th className="px-6 py-4 text-center font-semibold">Profit Factor</th>
+                  <th className="px-6 sm:px-8 py-3 text-left font-semibold whitespace-nowrap">Stratégie</th>
+                  <th className="px-4 py-3 text-center font-semibold">Trades</th>
+                  <th className="px-4 py-3 text-center font-semibold">Gain Moyen (pips)</th>
+                  <th className="px-4 py-3 text-center font-semibold">Perte Moyenne (pips)</th>
+                  <th className="px-4 py-3 text-center font-semibold">RR Moyen</th>
+                  <th className="px-4 py-3 text-center font-semibold">Profit Net Total</th>
+                  <th className="px-4 py-3 text-center font-semibold">Win Rate</th>
+                  <th className="px-4 py-3 text-center font-semibold">Profit Factor</th>
                 </tr>
               </thead>
               <tbody>
                 {strategyStats.map((s, i) => {
                   const gainMoyen = s.wins > 0 ? s.totalProfit / s.wins : 0;
                   const perteMoyenne = s.losses > 0 ? s.totalLoss / s.losses : 0;
-                  const rrMoyen =
-                    perteMoyenne > 0 ? gainMoyen / perteMoyenne : "∞";
+                  const rrMoyen = perteMoyenne > 0 ? gainMoyen / perteMoyenne : "∞";
                   const profitNet = s.totalProfit - s.totalLoss;
 
                   return (
@@ -136,26 +135,18 @@ const Stats = () => {
                         i % 2 === 0 ? "bg-white" : "bg-indigo-50"
                       } hover:bg-gradient-to-r hover:from-pink-100 hover:to-sky-100`}
                     >
-                      <td className="px-8 py-4 text-left font-medium text-gray-900">
+                      <td className="px-6 sm:px-8 py-3 text-left font-medium text-gray-900 whitespace-nowrap">
                         {s.strategy}
                       </td>
-                      <td className="px-6 py-4 font-semibold">{s.total}</td>
-                      <td className="px-6 py-4 font-mono text-green-600">
-                        {gainMoyen.toFixed(2)}
+                      <td className="px-4 py-3 font-semibold">{s.total}</td>
+                      <td className="px-4 py-3 font-mono text-green-600">{gainMoyen.toFixed(2)}</td>
+                      <td className="px-4 py-3 font-mono text-red-600">{perteMoyenne.toFixed(2)}</td>
+                      <td className="px-4 py-3 font-mono text-indigo-700">
+                        {typeof rrMoyen === "number" ? rrMoyen.toFixed(2) : rrMoyen}
                       </td>
-                      <td className="px-6 py-4 font-mono text-red-600">
-                        {perteMoyenne.toFixed(2)}
-                      </td>
-                      <td className="px-6 py-4 font-mono text-indigo-700">
-                        {typeof rrMoyen === "number"
-                          ? rrMoyen.toFixed(2)
-                          : rrMoyen}
-                      </td>
-                      <td className="px-6 py-4 font-mono font-semibold">
-                        {profitNet.toFixed(0)}
-                      </td>
-                      <td className="px-6 py-4 font-mono">{s.winRate}</td>
-                      <td className="px-6 py-4 font-mono">{s.profitFactor}</td>
+                      <td className="px-4 py-3 font-mono font-semibold">{profitNet.toFixed(0)}</td>
+                      <td className="px-4 py-3 font-mono">{s.winRate}</td>
+                      <td className="px-4 py-3 font-mono">{s.profitFactor}</td>
                     </motion.tr>
                   );
                 })}
@@ -163,9 +154,9 @@ const Stats = () => {
             </table>
           </div>
 
-          {/* ==== GRAPHIQUES ==== */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-14">
-            {/* Bar Chart Win vs Loss */}
+          {/* Graphiques en grille responsive */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
+            {/* Bar Chart Trades Gagnants vs Perdants */}
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-2xl font-semibold mb-6 text-gray-900 flex items-center gap-3">
                 <FiBarChart2 className="text-indigo-500" />
@@ -191,14 +182,12 @@ const Stats = () => {
               </ResponsiveContainer>
             </div>
 
-            {/* Pie Chart Total Trades */}
+            {/* Pie Chart Répartition Globale Trades */}
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-2xl font-semibold mb-6 text-gray-900 flex items-center gap-3">
                 <FiPieChart className="text-indigo-600" />
                 Répartition Globale Trades
               </h2>
-              {/* Ici tu peux mettre ton nouveau cercle comme tu veux */}
-              {/* Pour l'exemple, je laisse ton PieChart des stratégies */}
               <ResponsiveContainer width="100%" height={320}>
                 <PieChart>
                   <Pie
@@ -239,49 +228,59 @@ const Stats = () => {
             </div>
           </div>
 
-          {/* ==== DONUT CHART GAGNANTS VS PERDANTS ==== */}
-<div className="bg-white rounded-lg shadow p-6">
-  <h2 className="text-2xl font-semibold mb-6 text-gray-900 flex items-center gap-3">
-    <FiPieChart className="text-indigo-600" />
-    Répartition Globale Gagnants / Perdants
-  </h2>
-  <ResponsiveContainer width="100%" height={320}>
-    <PieChart>
-      <Pie
-        data={[
-          { name: "Gagnants", value: strategyStats.reduce((acc, s) => acc + s.wins, 0) },
-          { name: "Perdants", value: strategyStats.reduce((acc, s) => acc + s.losses, 0) },
-        ]}
-        dataKey="value"
-        nameKey="name"
-        cx="50%"
-        cy="50%"
-        innerRadius={70}
-        outerRadius={100}
-        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(1)}%`}
-        labelLine={false}
-      >
-        <Cell fill="#10b981" /> {/* Vert pour gagnants */}
-        <Cell fill="#ef4444" /> {/* Rouge pour perdants */}
-      </Pie>
-      <Legend
-        verticalAlign="bottom"
-        height={36}
-        iconSize={12}
-        iconType="circle"
-        wrapperStyle={{ fontSize: 14 }}
-      />
-      <Tooltip
-        contentStyle={{ backgroundColor: "#fafafa", borderRadius: 8, border: "1px solid #ddd" }}
-        formatter={(value, name) => [`${value} trades`, name]}
-      />
-    </PieChart>
-  </ResponsiveContainer>
-</div>
+          {/* Donut Chart Gagnants vs Perdants */}
+          <div className="bg-white rounded-lg shadow p-6 mb-16">
+            <h2 className="text-2xl font-semibold mb-6 text-gray-900 flex items-center gap-3">
+              <FiPieChart className="text-indigo-600" />
+              Répartition Globale Gagnants / Perdants
+            </h2>
+            <ResponsiveContainer width="100%" height={320}>
+              <PieChart>
+                <Pie
+                  data={[
+                    {
+                      name: "Gagnants",
+                      value: strategyStats.reduce((acc, s) => acc + s.wins, 0),
+                    },
+                    {
+                      name: "Perdants",
+                      value: strategyStats.reduce((acc, s) => acc + s.losses, 0),
+                    },
+                  ]}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={70}
+                  outerRadius={100}
+                  label={({ name, percent }) =>
+                    `${name} ${(percent * 100).toFixed(1)}%`
+                  }
+                  labelLine={false}
+                >
+                  <Cell fill="#10b981" /> {/* Vert pour gagnants */}
+                  <Cell fill="#ef4444" /> {/* Rouge pour perdants */}
+                </Pie>
+                <Legend
+                  verticalAlign="bottom"
+                  height={36}
+                  iconSize={12}
+                  iconType="circle"
+                  wrapperStyle={{ fontSize: 14 }}
+                />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#fafafa",
+                    borderRadius: 8,
+                    border: "1px solid #ddd",
+                  }}
+                  formatter={(value, name) => [`${value} trades`, name]}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
 
-<br></br>
-
-          {/* ==== ÉVOLUTION MENSUELLE DES PROFITS AVEC RATIO ==== */}
+          {/* Évolution Mensuelle des Profits & Ratio */}
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-2xl font-semibold mb-6 text-gray-900 flex items-center gap-3">
               <FiActivity className="text-pink-600" />
@@ -355,6 +354,10 @@ const Stats = () => {
 };
 
 export default Stats;
+
+
+
+
 
 
 
