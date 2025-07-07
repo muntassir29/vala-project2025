@@ -1,154 +1,7 @@
-
-// import { useEffect, useState } from "react";
-// import { useAuth } from "../context/AuthContext";
-
-// const Notes = () => {
-//   const { token } = useAuth();
-//   const [notes, setNotes] = useState([]);
-//   const [content, setContent] = useState("");
-//   const [period, setPeriod] = useState("");
-//   const [editingNoteId, setEditingNoteId] = useState(null);
-//   const [loading, setLoading] = useState(true);
-
-//   const fetchNotes = async () => {
-//     try {
-//       const res = await fetch("http://localhost:3000/api/notes", {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       });
-//       const data = await res.json();
-//       setNotes(data);
-//       setLoading(false);
-//     } catch (err) {
-//       console.error("Erreur lors de la récupération des notes:", err);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchNotes();
-//   }, []);
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-
-//     const method = editingNoteId ? "PUT" : "POST";
-//     const url = editingNoteId
-//       ? `http://localhost:3000/api/notes/${editingNoteId}`
-//       : "http://localhost:3000/api/notes";
-
-//     try {
-//       const res = await fetch(url, {
-//         method,
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `Bearer ${token}`,
-//         },
-//         body: JSON.stringify({ content, period }),
-//       });
-
-//       if (!res.ok) throw new Error("Erreur API");
-
-//       setContent("");
-//       setPeriod("");
-//       setEditingNoteId(null);
-//       fetchNotes();
-//     } catch (err) {
-//       console.error("Erreur lors de l’enregistrement de la note:", err);
-//     }
-//   };
-
-//   const handleDelete = async (id) => {
-//     if (!window.confirm("Confirmer la suppression ?")) return;
-
-//     try {
-//       const res = await fetch(`http://localhost:3000/api/notes/${id}`, {
-//         method: "DELETE",
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       });
-//       if (!res.ok) throw new Error("Erreur suppression");
-//       fetchNotes();
-//     } catch (err) {
-//       console.error("Erreur suppression note:", err);
-//     }
-//   };
-
-//   const handleEdit = (note) => {
-//     setEditingNoteId(note._id);
-//     setContent(note.content);
-//     setPeriod(note.period);
-//   };
-
-//   return (
-//     <div className="max-w-3xl mx-auto mt-8 p-4">
-//       <h1 className="text-3xl font-bold mb-6 text-center"> 📝 Notes Globales</h1>
-
-//       <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow p-6 space-y-4 mb-8">
-//         <textarea
-//           value={content}
-//           onChange={(e) => setContent(e.target.value)}
-//           placeholder="Contenu de la note"
-//           className="w-full p-3 border rounded-md"
-//           required
-//         />
-//         <input
-//           value={period}
-//           onChange={(e) => setPeriod(e.target.value)}
-//           placeholder="Période (ex: Semaine 23 ou Juin 2025)"
-//           className="w-full p-3 border rounded-md"
-//           required
-//         />
-//         <button
-//           type="submit"
-//           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-//         >
-//           {editingNoteId ? "Modifier la note" : "Ajouter une note"}
-//         </button>
-//       </form>
-
-//       {loading ? (
-//         <p className="text-center text-gray-500">Chargement...</p>
-//       ) : notes.length === 0 ? (
-//         <p className="text-center text-gray-500">Aucune note disponible.</p>
-//       ) : (
-//         <div className="space-y-4">
-//           {notes.map((note) => (
-//             <div key={note._id} className="bg-white rounded-xl shadow p-4">
-//               <div className="flex justify-between items-center mb-2">
-//                 <span className="text-sm text-gray-500">{note.period}</span>
-//                 <div className="space-x-2">
-//                   <button
-//                     onClick={() => handleEdit(note)}
-//                     className="text-blue-600 hover:underline"
-//                   >
-//                     Modifier
-//                   </button>
-//                   <button
-//                     onClick={() => handleDelete(note._id)}
-//                     className="text-red-600 hover:underline"
-//                   >
-//                     Supprimer
-//                   </button>
-//                 </div>
-//               </div>
-//               <p className="text-gray-800 whitespace-pre-line">{note.content}</p>
-//             </div>
-//           ))}
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default Notes;
-
-
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
-import { FaLightbulb, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import { FaLightbulb, FaEdit, FaTrash, FaPlus, FaExclamationTriangle } from "react-icons/fa";
 
 const conseilsNotes = [
   {
@@ -175,6 +28,8 @@ const Notes = () => {
   const [period, setPeriod] = useState("");
   const [editingNoteId, setEditingNoteId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [noteToDelete, setNoteToDelete] = useState(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const fetchNotes = async () => {
     try {
@@ -223,17 +78,22 @@ const Notes = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Confirmer la suppression ?")) return;
+  const openDeleteModal = (id) => {
+    setNoteToDelete(id);
+    setShowConfirmModal(true);
+  };
 
+  const confirmDelete = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/notes/${id}`, {
+      const res = await fetch(`http://localhost:3000/api/notes/${noteToDelete}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       if (!res.ok) throw new Error("Erreur suppression");
+      setShowConfirmModal(false);
+      setNoteToDelete(null);
       fetchNotes();
     } catch (err) {
       console.error("Erreur suppression note:", err);
@@ -248,7 +108,7 @@ const Notes = () => {
 
   return (
     <div className="min-h-screen p-6 bg-white text-gray-900 font-sans max-w-4xl mx-auto">
-      <h1 className="text-4xl font-extrabold mb-8 text-center text-indigo-700 drop-shadow-md">
+      <h1 className="text-4xl font-extrabold mb-8 text-center text-black drop-shadow-md">
         📝 Notes Globales
       </h1>
 
@@ -318,7 +178,9 @@ const Notes = () => {
               className="bg-gray-50 border border-gray-300 rounded-xl shadow-md p-5 flex flex-col"
             >
               <div className="flex justify-between items-center mb-3">
-                <span className="text-sm text-indigo-700 font-semibold select-none">{note.period}</span>
+                <span className="text-sm text-indigo-700 font-semibold select-none">
+                  {note.period}
+                </span>
                 <div className="space-x-4">
                   <button
                     onClick={() => handleEdit(note)}
@@ -328,7 +190,7 @@ const Notes = () => {
                     <FaEdit /> Modifier
                   </button>
                   <button
-                    onClick={() => handleDelete(note._id)}
+                    onClick={() => openDeleteModal(note._id)}
                     className="text-red-600 hover:text-red-900 font-semibold flex items-center gap-1"
                     title="Supprimer"
                   >
@@ -341,9 +203,44 @@ const Notes = () => {
           ))}
         </div>
       )}
+
+      {/* Modale de confirmation */}
+      {showConfirmModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white/90 backdrop-blur-md border border-gray-300 rounded-2xl shadow-2xl p-6 w-[90%] max-w-md text-center pointer-events-auto"
+          >
+            <div className="flex items-center justify-center text-red-600 mb-4">
+              <FaExclamationTriangle size={28} />
+            </div>
+            <h2 className="text-xl font-bold text-gray-800 mb-2">Confirmer la suppression</h2>
+            <p className="text-gray-600 mb-6">
+              Cette action est <span className="font-semibold text-red-600">irréversible</span>. Es-tu sûr de vouloir continuer ?
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => setShowConfirmModal(false)}
+                className="px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 transition font-medium"
+              >
+                Annuler
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition"
+              >
+                Supprimer
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default Notes;
+
+
 

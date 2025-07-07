@@ -1,35 +1,34 @@
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";  // <-- import framer-motion ici
+import { motion } from "framer-motion";
 import journalStep1 from "../assets/journal-step1.webp";
 import journalStep2 from "../assets/journal-step2.png";
 import journalStep3 from "../assets/journal-step3.jpg";
-import dashboardImage from "../assets/journal-dashboard.png"; 
-import tradingEdgeImg from "../assets/trading-edge.png"; 
+import dashboardImage from "../assets/journal-dashboard.png";
+import tradingEdgeImg from "../assets/trading-edge.png";
 import tradeHeader from "../assets/tradeheader.png";
-import sectionImage from "../assets/sectionimage.jpg"; 
+import sectionImage from "../assets/sectionimage.jpg";
 
 const faqs = [
   {
-    question: "How secure is my trading data?",
+    question: "Mes données de trading sont-elles sécurisées ?",
     answer:
-      "Your data is encrypted and securely stored in the cloud with regular backups. Only you have access to your trading history.",
+      "Vos données sont cryptées et stockées en toute sécurité dans le cloud avec des sauvegardes régulières. Vous seul y avez accès.",
   },
   {
-    question: "Can I import trades from my broker?",
+    question: "Puis-je importer mes trades depuis mon broker ?",
     answer:
-      "Yes! You can import your trade history from popular platforms like MetaTrader, TradingView, and more with just a few clicks.",
+      "Oui ! Vous pouvez importer votre historique de trades depuis des plateformes comme MetaTrader, TradingView, et plus encore en quelques clics.",
   },
   {
-    question: "What kind of insights will I get?",
+    question: "Quel type d’analyses vais-je obtenir ?",
     answer:
-      "You’ll get detailed reports, pattern analysis, performance breakdowns by strategy, and much more to help improve your trading edge.",
+      "Vous recevrez des rapports détaillés, des analyses de modèles, des statistiques par stratégie et bien plus pour améliorer vos performances.",
   },
   {
-    question: "Is there a free trial available?",
+    question: "Y a-t-il une période d’essai gratuite ?",
     answer:
-      "Absolutely. You can try out all features for free and decide later if you want to upgrade to Silver or Gold plans.",
+      "Bien sûr. Essayez toutes les fonctionnalités gratuitement, puis décidez si vous souhaitez passer au plan Silver ou Gold.",
   },
 ];
 
@@ -52,12 +51,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      {/* Header / Hero section */}
+      {/* Section Hero */}
       <header
         className="relative text-white px-8 py-32 flex flex-col items-center text-center bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${tradeHeader})`,
-        }}
+        style={{ backgroundImage: `url(${tradeHeader})` }}
       >
         <div className="relative z-10 max-w-4xl">
           <motion.h1
@@ -66,7 +63,7 @@ export default function Home() {
             animate="visible"
             variants={fadeInUp}
           >
-            Welcome to Trading Journal
+            Bienvenue sur Trading Journal
           </motion.h1>
           <motion.p
             className="max-w-2xl text-lg mb-6 drop-shadow-md"
@@ -75,37 +72,32 @@ export default function Home() {
             variants={fadeInUp}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
-            Monetize your audience by promoting our industry-leading trading journal and analytics tools.
+            Monétisez votre audience en promouvant notre journal de trading et nos outils d’analyse puissants.
           </motion.p>
           <div className="space-x-4">
             <Link
               to="/signup"
-              className="relative inline-block px-6 py-3 rounded-full text-white font-semibold 
-                bg-gradient-to-r from-[#352a1e] via-[#2f3f4c] to-[#100e0b] 
-                overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              className="relative inline-block px-6 py-3 rounded-full text-white font-semibold bg-gradient-to-r from-[#352a1e] via-[#2f3f4c] to-[#100e0b] overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg"
             >
               <span className="absolute inset-0 bg-white opacity-10 blur-lg transition-opacity duration-500 group-hover:opacity-20"></span>
-              <span className="relative z-10">Sign up for Free</span>
+              <span className="relative z-10">Créer un compte</span>
             </Link>
-
             <Link
               to="/affiliates"
-              className="relative inline-block px-6 py-3 rounded-full text-white font-semibold 
-                bg-gradient-to-r from-[#2f3f4c] via-[#352a1e] to-[#100e0b] 
-                overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              className="relative inline-block px-6 py-3 rounded-full text-white font-semibold bg-gradient-to-r from-[#2f3f4c] via-[#352a1e] to-[#100e0b] overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg"
             >
               <span className="absolute inset-0 bg-white opacity-10 blur-lg transition-opacity duration-500 group-hover:opacity-20"></span>
-              <span className="relative z-10">Affiliates</span>
+              <span className="relative z-10">Affiliation</span>
             </Link>
           </div>
         </div>
       </header>
 
-      {/* Content section */}
+      {/* Contenu principal */}
       <main className="flex-grow px-8 py-16 space-y-20 max-w-6xl mx-auto">
-        {/* 3 Easy Steps */}
+        {/* Étapes simples */}
         <section className="text-center">
-          <h2 className="text-3xl font-bold mb-6">3 Easy Steps To Improve Your Performance</h2>
+          <h2 className="text-3xl font-bold mb-6">3 étapes simples pour booster vos performances</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[journalStep1, journalStep2, journalStep3].map((img, idx) => (
               <motion.div
@@ -119,13 +111,7 @@ export default function Home() {
               >
                 <motion.img
                   src={img}
-                  alt={
-                    idx === 0
-                      ? "Journal Trades"
-                      : idx === 1
-                      ? "Identify Patterns"
-                      : "Boost Performance"
-                  }
+                  alt={`Étape ${idx + 1}`}
                   className="rounded-lg mb-4 w-full h-48 object-cover"
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -138,10 +124,10 @@ export default function Home() {
                   transition={{ delay: idx * 0.2 + 0.3, duration: 0.6 }}
                 >
                   {idx === 0
-                    ? "Step 1: Journal Your Trades"
+                    ? "Étape 1 : Journalisez vos trades"
                     : idx === 1
-                    ? "Step 2: Identify Your Patterns"
-                    : "Step 3: Boost Your Performance"}
+                    ? "Étape 2 : Identifiez vos schémas"
+                    : "Étape 3 : Améliorez vos performances"}
                 </motion.h3>
                 <motion.p
                   className="text-gray-600 text-sm"
@@ -150,17 +136,17 @@ export default function Home() {
                   transition={{ delay: idx * 0.2 + 0.5, duration: 0.6 }}
                 >
                   {idx === 0
-                    ? "Journal your trades in seconds. Have peace of mind knowing your data is fully backed up and secured."
+                    ? "Enregistrez vos trades en quelques secondes. Vos données sont sauvegardées et sécurisées."
                     : idx === 1
-                    ? "Let our software detect patterns to help you understand what works and what doesn’t."
-                    : "Analyze your mistakes, identify weaknesses, and focus on improvement every trading day."}
+                    ? "Laissez notre logiciel détecter vos modèles pour mieux comprendre ce qui fonctionne."
+                    : "Analysez vos erreurs, identifiez vos faiblesses et progressez chaque jour."}
                 </motion.p>
               </motion.div>
             ))}
           </div>
         </section>
 
-        {/* Why Choose */}
+        {/* Pourquoi choisir Trading Journal */}
         <section>
           <motion.h2
             className="text-3xl font-bold mb-6 text-center"
@@ -169,7 +155,7 @@ export default function Home() {
             viewport={{ once: true, amount: 0.3 }}
             variants={fadeInUp}
           >
-            Why Choose Trading Journal?
+            Pourquoi choisir Trading Journal ?
           </motion.h2>
           <motion.ul
             className="list-disc list-inside space-y-2 text-gray-700 text-lg"
@@ -178,15 +164,15 @@ export default function Home() {
             viewport={{ once: true, amount: 0.3 }}
             variants={fadeIn}
           >
-            <li>Document your past behaviors and learn from them using our intuitive notes management system.</li>
-            <li>Recurring Commissions: Earn 20% on subscriptions for the entire customer lifetime.</li>
-            <li>30-Day Cookie: Earn from referrals up to one month after the initial click.</li>
-            <li>Trusted Brand: Used by thousands of traders worldwide.</li>
-            <li>Multiple Plans: Promote Silver and Gold subscription options.</li>
+            <li>Documentez vos habitudes passées et apprenez grâce à notre système de notes intelligent.</li>
+            <li>Commissions récurrentes : gagnez 20% sur chaque abonnement actif.</li>
+            <li>Cookie de 30 jours : gagnez même si l'inscription se fait plus tard.</li>
+            <li>Une marque de confiance utilisée par des milliers de traders.</li>
+            <li>Plans Silver & Gold pour s’adapter à tous les profils.</li>
           </motion.ul>
         </section>
 
-        {/* Trading Journal Section */}
+        {/* Journal de Trading */}
         <section className="flex flex-col-reverse md:flex-row items-center gap-12">
           <motion.div
             className="md:w-1/2 space-y-6"
@@ -195,26 +181,17 @@ export default function Home() {
             viewport={{ once: true, amount: 0.3 }}
             variants={fadeInUp}
           >
-            <h2 className="text-3xl font-bold">Trading Journal</h2>
+            <h2 className="text-3xl font-bold">Journal de trading</h2>
             <p className="text-gray-700">
-              Start recording your trades with TraderSync and let our powerful journaling show you the path to minimize your mistakes.
+              Enregistrez vos trades avec précision et laissez notre outil puissant vous guider pour corriger vos erreurs.
             </p>
             <ul className="list-disc list-inside space-y-2 text-gray-600">
-              <li>
-                <strong>Journal Trades:</strong> The simplest yet most powerful stock trading journal to date. Build a vault of valuable information that can be analyzed at any time from anywhere.
-              </li>
-              <li>
-                <strong>Stop Losing Profits:</strong> Refine your performance by learning which setups are not working for you and focus on the ones that are.
-              </li>
-              <li>
-                <strong>Save Time:</strong> Import your stock trade history from your trading platform, simple and easy.
-              </li>
-              <li>
-                <strong>Customize Your Experience:</strong> Custom tailor your stock journal to fit your unique trading style with highly customizable modules.
-              </li>
+              <li><strong>Journalisez :</strong> Créez un historique complet et accessible depuis n’importe où.</li>
+              <li><strong>Réduisez vos pertes :</strong> Apprenez ce qui fonctionne ou pas et concentrez-vous sur les bonnes stratégies.</li>
+              <li><strong>Gagnez du temps :</strong> Importez votre historique de trading depuis votre plateforme.</li>
+              <li><strong>Personnalisez :</strong> Adaptez le journal à votre style de trading.</li>
             </ul>
           </motion.div>
-
           <motion.div
             className="md:w-1/2"
             initial={{ opacity: 0, scale: 0.95 }}
@@ -224,13 +201,13 @@ export default function Home() {
           >
             <img
               src={dashboardImage}
-              alt="Trading Journal Dashboard"
+              alt="Dashboard du journal de trading"
               className="rounded-xl shadow-lg w-full object-cover"
             />
           </motion.div>
         </section>
 
-        {/* Trading Edge Section */}
+        {/* Avantage trading */}
         <section className="flex flex-col md:flex-row items-center gap-12">
           <motion.div
             className="md:w-1/2"
@@ -241,7 +218,7 @@ export default function Home() {
           >
             <img
               src={tradingEdgeImg}
-              alt="Trading Edge Reports"
+              alt="Rapports de performance"
               className="rounded-xl shadow-lg w-full object-cover"
             />
           </motion.div>
@@ -253,33 +230,23 @@ export default function Home() {
             viewport={{ once: true, amount: 0.3 }}
             variants={fadeInUp}
           >
-            <h2 className="text-3xl font-bold">Find Your Trading Edge</h2>
+            <h2 className="text-3xl font-bold">Trouvez votre avantage de trading</h2>
             <p className="text-gray-700">
-              Forget trying to interpret hundreds of spreadsheets of stock trading data.
-              Replace those spreadsheets with our easy to use reports to understand your
-              trading behavior quickly.
+              Remplacez les tableurs complexes par des rapports simples et puissants pour comprendre vos comportements de trading.
             </p>
             <ul className="list-disc list-inside space-y-2 text-gray-600">
-              <li>
-                <strong>Find and Refine Your Trading Edge:</strong> We have synthesized everything you need to know into two reports. Refine your stock trading from feedback generated reports designed to provide quick and useful information.
-              </li>
-              <li>
-                <strong>Understand Your Numbers:</strong> We give you feedback in plain English. Let our trading journal software interpret your data.
-              </li>
-              <li>
-                <strong>Get Powerful Feedback:</strong> Have a clear picture of your trading patterns with customizable reports that help you understand your unique trading edge.
-              </li>
+              <li><strong>Affinez votre edge :</strong> Nos rapports vous offrent des retours immédiats pour vous améliorer.</li>
+              <li><strong>Comprenez vos chiffres :</strong> Nos analyses sont présentées en langage clair.</li>
+              <li><strong>Personnalisez votre analyse :</strong> Visualisez vos forces et vos faiblesses pour progresser efficacement.</li>
             </ul>
           </motion.div>
         </section>
       </main>
-      
-      {/* Final CTA - Sign Up Now with background image, BEFORE FAQ */}
+
+      {/* Call to Action final */}
       <section
         className="relative text-white px-8 py-15 text-center bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${sectionImage})`,
-        }}
+        style={{ backgroundImage: `url(${sectionImage})` }}
       >
         <div className="relative z-10 max-w-4xl mx-auto">
           <motion.p
@@ -289,7 +256,7 @@ export default function Home() {
             viewport={{ once: true }}
             variants={fadeInUp}
           >
-            Simple. Fast. Powerful.
+            Simple. Rapide. Puissant.
           </motion.p>
           <motion.p
             className="text-xl font-semibold mb-6"
@@ -299,23 +266,21 @@ export default function Home() {
             variants={fadeInUp}
             transition={{ delay: 0.2 }}
           >
-            The trading journal that will help improve your trading performance.
+            Le journal de trading qui vous aidera à améliorer vos performances.
           </motion.p>
           <Link
             to="/signup"
-            className="relative inline-block px-8 py-4 rounded-full text-white font-semibold 
-                bg-gradient-to-r from-pink-500 via-purple-500 to-sky-500 
-                overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg"
+            className="relative inline-block px-8 py-4 rounded-full text-white font-semibold bg-gradient-to-r from-pink-500 via-purple-500 to-sky-500 overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg"
           >
             <span className="absolute inset-0 bg-white opacity-10 blur-lg transition-opacity duration-500 group-hover:opacity-20"></span>
-            <span className="relative z-10">Sign Up Now</span>
+            <span className="relative z-10">Créer un compte maintenant</span>
           </Link>
         </div>
       </section>
 
-      {/* FAQ Section */}
+      {/* FAQ */}
       <section className="max-w-4xl mx-auto px-4 mt-24 mb-16">
-        <h2 className="text-4xl font-bold text-center mb-10 text-gray-800">FAQs</h2>
+        <h2 className="text-4xl font-bold text-center mb-10 text-gray-800">FAQ</h2>
         <div className="space-y-4">
           {faqs.map((faq, index) => (
             <div
@@ -345,6 +310,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 

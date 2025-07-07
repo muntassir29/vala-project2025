@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
@@ -90,9 +89,12 @@ const Stats = () => {
     ratio: m.total !== 0 ? +(m.totalProfit / m.total).toFixed(2) : 0,
   }));
 
+  // Pour animer les <tr> avec framer-motion
+  const MotionTr = motion.tr;
+
   return (
     <div className="p-4 sm:p-8 max-w-7xl mx-auto bg-gray-50 rounded-lg shadow-md min-h-screen">
-      <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-10 flex items-center gap-3">
+      <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-10 flex justify-center gap-3">
         <FiPieChart className="text-indigo-600" size={40} />
         Statistiques de Trading
       </h1>
@@ -108,25 +110,36 @@ const Stats = () => {
             <table className="w-full table-auto border-collapse text-sm">
               <thead className="bg-gradient-to-r from-pink-500 to-sky-500 text-white">
                 <tr>
-                  <th className="px-6 sm:px-8 py-3 text-left font-semibold whitespace-nowrap">Stratégie</th>
+                  <th className="px-6 sm:px-8 py-3 text-left font-semibold whitespace-nowrap">
+                    Stratégie
+                  </th>
                   <th className="px-4 py-3 text-center font-semibold">Trades</th>
-                  <th className="px-4 py-3 text-center font-semibold">Gain Moyen (pips)</th>
-                  <th className="px-4 py-3 text-center font-semibold">Perte Moyenne (pips)</th>
+                  <th className="px-4 py-3 text-center font-semibold">
+                    Gain Moyen (pips)
+                  </th>
+                  <th className="px-4 py-3 text-center font-semibold">
+                    Perte Moyenne (pips)
+                  </th>
                   <th className="px-4 py-3 text-center font-semibold">RR Moyen</th>
-                  <th className="px-4 py-3 text-center font-semibold">Profit Net Total</th>
+                  <th className="px-4 py-3 text-center font-semibold">
+                    Profit Net Total
+                  </th>
                   <th className="px-4 py-3 text-center font-semibold">Win Rate</th>
-                  <th className="px-4 py-3 text-center font-semibold">Profit Factor</th>
+                  <th className="px-4 py-3 text-center font-semibold">
+                    Profit Factor
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {strategyStats.map((s, i) => {
                   const gainMoyen = s.wins > 0 ? s.totalProfit / s.wins : 0;
                   const perteMoyenne = s.losses > 0 ? s.totalLoss / s.losses : 0;
-                  const rrMoyen = perteMoyenne > 0 ? gainMoyen / perteMoyenne : "∞";
+                  const rrMoyen =
+                    perteMoyenne > 0 ? gainMoyen / perteMoyenne : "∞";
                   const profitNet = s.totalProfit - s.totalLoss;
 
                   return (
-                    <motion.tr
+                    <MotionTr
                       key={i}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -139,15 +152,21 @@ const Stats = () => {
                         {s.strategy}
                       </td>
                       <td className="px-4 py-3 font-semibold">{s.total}</td>
-                      <td className="px-4 py-3 font-mono text-green-600">{gainMoyen.toFixed(2)}</td>
-                      <td className="px-4 py-3 font-mono text-red-600">{perteMoyenne.toFixed(2)}</td>
+                      <td className="px-4 py-3 font-mono text-green-600">
+                        {gainMoyen.toFixed(2)}
+                      </td>
+                      <td className="px-4 py-3 font-mono text-red-600">
+                        {perteMoyenne.toFixed(2)}
+                      </td>
                       <td className="px-4 py-3 font-mono text-indigo-700">
                         {typeof rrMoyen === "number" ? rrMoyen.toFixed(2) : rrMoyen}
                       </td>
-                      <td className="px-4 py-3 font-mono font-semibold">{profitNet.toFixed(0)}</td>
+                      <td className="px-4 py-3 font-mono font-semibold">
+                        {profitNet.toFixed(0)}
+                      </td>
                       <td className="px-4 py-3 font-mono">{s.winRate}</td>
                       <td className="px-4 py-3 font-mono">{s.profitFactor}</td>
-                    </motion.tr>
+                    </MotionTr>
                   );
                 })}
               </tbody>
@@ -163,10 +182,7 @@ const Stats = () => {
                 Trades Gagnants vs Perdants
               </h2>
               <ResponsiveContainer width="100%" height={320}>
-                <BarChart
-                  data={barData}
-                  margin={{ top: 10, right: 20, bottom: 20, left: 0 }}
-                >
+                <BarChart data={barData} margin={{ top: 10, right: 20, bottom: 20, left: 0 }}>
                   <XAxis dataKey="strategy" stroke="#4B5563" />
                   <YAxis stroke="#4B5563" />
                   <Tooltip
@@ -197,9 +213,7 @@ const Stats = () => {
                     cx="50%"
                     cy="50%"
                     outerRadius={100}
-                    label={({ name, percent }) =>
-                      `${name} ${(percent * 100).toFixed(0)}%`
-                    }
+                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                     labelLine={false}
                   >
                     {pieData.map((entry, index) => (
@@ -253,9 +267,7 @@ const Stats = () => {
                   cy="50%"
                   innerRadius={70}
                   outerRadius={100}
-                  label={({ name, percent }) =>
-                    `${name} ${(percent * 100).toFixed(1)}%`
-                  }
+                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(1)}%`}
                   labelLine={false}
                 >
                   <Cell fill="#10b981" /> {/* Vert pour gagnants */}
@@ -287,16 +299,9 @@ const Stats = () => {
               Évolution Mensuelle des Profits & Ratio
             </h2>
             <ResponsiveContainer width="100%" height={350}>
-              <LineChart
-                data={lineData}
-                margin={{ top: 15, right: 30, left: 20, bottom: 10 }}
-              >
+              <LineChart data={lineData} margin={{ top: 15, right: 30, left: 20, bottom: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis
-                  dataKey="month"
-                  stroke="#4B5563"
-                  tick={{ fontSize: 14, fontWeight: "600" }}
-                />
+                <XAxis dataKey="month" stroke="#4B5563" tick={{ fontSize: 14, fontWeight: "600" }} />
                 <YAxis
                   yAxisId="left"
                   orientation="left"
@@ -354,6 +359,7 @@ const Stats = () => {
 };
 
 export default Stats;
+
 
 
 

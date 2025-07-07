@@ -8,20 +8,20 @@ import notesImage from '../assets/about-notes.jpg'
 export default function About() {
   return (
     <div className="px-6 md:px-20 py-16 bg-white text-gray-800">
-      {/* Hero Section */}
+      {/* Section Héros */}
       <motion.div
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="text-center mb-16"
       >
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">About Our Platform</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">À propos de notre plateforme</h1>
         <p className="text-lg md:text-xl text-gray-600">
-          A modern trading journal built for serious traders who want to evolve.
+          Un journal de trading moderne, conçu pour les traders sérieux qui veulent évoluer.
         </p>
       </motion.div>
 
-      {/* Image Section */}
+      {/* Section Images */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -29,26 +29,26 @@ export default function About() {
         viewport={{ once: true }}
         className="grid md:grid-cols-2 gap-8 mb-20"
       >
-        <img src={statsImage} alt="Statistics dashboard" className="rounded-xl shadow-lg w-full object-cover h-[300px]" />
-        <img src={notesImage} alt="Trade notes" className="rounded-xl shadow-lg w-full object-cover h-[300px]" />
+        <img src={statsImage} alt="Tableau des statistiques" className="rounded-xl shadow-lg w-full object-cover h-[300px]" />
+        <img src={notesImage} alt="Notes de trading" className="rounded-xl shadow-lg w-full object-cover h-[300px]" />
       </motion.div>
 
-      {/* Mission & Vision */}
+      {/* Mission */}
       <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-          className="mb-16 text-center max-w-3xl mx-auto"
+        initial={{ opacity: 0, x: -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.7 }}
+        viewport={{ once: true }}
+        className="mb-16 text-center max-w-3xl mx-auto"
       >
-  <h2 className="text-2xl font-semibold mb-4">Our Mission</h2>
-  <p className="text-gray-600 leading-relaxed">
-          To help you turn every trade into a learning opportunity. With detailed stats, structured notes,
-          and intelligent tracking — our platform is designed to support your growth, day after day.
+        <h2 className="text-2xl font-semibold mb-4">Notre mission</h2>
+        <p className="text-gray-600 leading-relaxed">
+          Vous aider à transformer chaque trade en opportunité d’apprentissage. Grâce à des statistiques détaillées,
+          des notes structurées et un suivi intelligent — notre plateforme est pensée pour soutenir votre progression, jour après jour.
         </p>
       </motion.div>
 
-      {/* Key Features */}
+      {/* Fonctionnalités principales */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -58,40 +58,40 @@ export default function About() {
       >
         <Feature
           icon={<FaChartLine className="text-blue-600 text-3xl" />}
-          title="Advanced Statistics"
-          text="Analyze your performance by strategy, session, or timeframe. Make better decisions with clear insights."
+          title="Statistiques avancées"
+          text="Analysez vos performances par stratégie, session ou plage horaire. Prenez de meilleures décisions grâce à des insights clairs."
         />
         <Feature
           icon={<FaLightbulb className="text-yellow-500 text-3xl" />}
-          title="Notes & Goals"
-          text="Track your reflections, lessons, and objectives. Writing helps you improve and prepare."
+          title="Notes & Objectifs"
+          text="Notez vos réflexions, leçons et objectifs. Écrire permet d’améliorer et de mieux se préparer."
         />
         <Feature
           icon={<FaUserShield className="text-green-600 text-3xl" />}
-          title="Secure & Private"
-          text="Your data belongs to you only. Encrypted and protected using modern security standards."
+          title="Sécurisé & Privé"
+          text="Vos données vous appartiennent. Elles sont chiffrées et protégées selon les normes de sécurité les plus modernes."
         />
         <Feature
           icon={<MdGroups className="text-purple-600 text-3xl" />}
-          title="Community & Support"
-          text="A place to share, learn, and grow with other traders who share your mindset."
+          title="Communauté & Support"
+          text="Un espace pour échanger, apprendre et évoluer avec d'autres traders qui partagent votre mentalité."
         />
       </motion.div>
 
-      {/* Values */}
-     <motion.div
-  initial={{ opacity: 0, y: 40 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.6 }}
-  viewport={{ once: true }}
-  className="mb-20 text-center max-w-3xl mx-auto"
->
-  <h2 className="text-2xl font-semibold mb-4">Our Core Values</h2>
-  <ul className="list-disc text-left inline-block text-gray-600 space-y-2 pl-6">
-          <li>Transparency and honesty in performance</li>
-          <li>Discipline and consistency in journaling</li>
-          <li>Continuous improvement, one trade at a time</li>
-          <li>Supportive and ambitious community</li>
+      {/* Valeurs */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="mb-20 text-center max-w-3xl mx-auto"
+      >
+        <h2 className="text-2xl font-semibold mb-4">Nos valeurs fondamentales</h2>
+        <ul className="list-disc text-left inline-block text-gray-600 space-y-2 pl-6">
+          <li>Transparence et honnêteté dans les performances</li>
+          <li>Discipline et régularité dans le journaling</li>
+          <li>Amélioration continue, trade après trade</li>
+          <li>Communauté solidaire et ambitieuse</li>
         </ul>
       </motion.div>
 
@@ -103,7 +103,7 @@ export default function About() {
         viewport={{ once: true }}
         className="text-center"
       >
-        <p className="text-lg mb-4">Ready to take your trading to the next level?</p>
+        <p className="text-lg mb-4">Prêt à passer au niveau supérieur ?</p>
         <Link
           to="/signup"
           className="relative inline-block px-8 py-3 font-semibold rounded-full 
@@ -113,7 +113,7 @@ export default function About() {
           before:bg-gradient-to-r before:from-pink-400 before:to-sky-400 before:opacity-0 
           hover:before:opacity-30 before:transition before:duration-300"
         >
-          Sign up for Free 🚀
+          Créer un compte gratuitement 🚀
         </Link>
       </motion.div>
     </div>
@@ -131,4 +131,3 @@ function Feature({ icon, title, text }) {
     </div>
   )
 }
-

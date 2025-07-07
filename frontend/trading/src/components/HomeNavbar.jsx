@@ -22,7 +22,7 @@ const HomeNavbar = () => {
             to="/about"
             className="hover:text-white transition duration-300 hover:underline underline-offset-4"
           >
-            About
+            À propos
           </Link>
           <Link
             to="/contact"
@@ -34,33 +34,32 @@ const HomeNavbar = () => {
             to="/affiliates"
             className="hover:text-white transition duration-300 hover:underline underline-offset-4"
           >
-            Affiliates
+            Affiliés
           </Link>
         </nav>
 
         {/* Buttons */}
-<div className="hidden md:flex gap-4 items-center">
-  <Link
-    to="/login"
-    className="text-base font-bold text-white relative group transition duration-300"
-  >
-    <span className="group-hover:text-white group-hover:underline group-hover:underline-offset-4 transition duration-300">
-      Log In
-    </span>
-  </Link>
-  <Link
-    to="/signup"
-    className="relative inline-block px-6 py-2 text-sm font-bold text-white rounded-full 
-      bg-gradient-to-r from-pink-500 to-sky-500 shadow-lg transform transition-all duration-300
-      hover:scale-105 hover:shadow-xl hover:text-black
-      before:absolute before:inset-0 before:rounded-full
-      before:bg-gradient-to-r before:from-pink-400 before:to-sky-400 before:opacity-0 
-      hover:before:opacity-30 before:transition before:duration-300"
-  >
-    Sign up for Free
-  </Link>
-</div>
-
+        <div className="hidden md:flex gap-4 items-center">
+          <Link
+            to="/login"
+            className="text-base font-bold text-white relative group transition duration-300"
+          >
+            <span className="group-hover:text-white group-hover:underline group-hover:underline-offset-4 transition duration-300">
+              Connexion
+            </span>
+          </Link>
+          <Link
+            to="/signup"
+            className="relative inline-block px-6 py-2 text-sm font-bold text-white rounded-full 
+              bg-gradient-to-r from-pink-500 to-sky-500 shadow-lg transform transition-all duration-300
+              hover:scale-105 hover:shadow-xl hover:text-black
+              before:absolute before:inset-0 before:rounded-full
+              before:bg-gradient-to-r before:from-pink-400 before:to-sky-400 before:opacity-0 
+              hover:before:opacity-30 before:transition before:duration-300"
+          >
+            Inscription gratuite
+          </Link>
+        </div>
 
         {/* Mobile toggle */}
         <button className="md:hidden text-white" onClick={() => setMenuOpen(!menuOpen)}>
@@ -76,7 +75,7 @@ const HomeNavbar = () => {
             className="block py-2 text-base font-semibold hover:underline"
             onClick={() => setMenuOpen(false)}
           >
-            About
+            À propos
           </Link>
           <Link
             to="/contact"
@@ -90,21 +89,21 @@ const HomeNavbar = () => {
             className="block py-2 text-base font-semibold hover:underline"
             onClick={() => setMenuOpen(false)}
           >
-            Affiliates
+            Affiliés
           </Link>
           <Link
             to="/login"
             className="block py-2 text-base font-medium hover:underline"
             onClick={() => setMenuOpen(false)}
           >
-            Log In
+            Connexion
           </Link>
           <Link
             to="/signup"
             className="block py-2 font-semibold text-white bg-gradient-to-r from-pink-500 to-sky-500 rounded-full text-center hover:scale-105 transition duration-300"
             onClick={() => setMenuOpen(false)}
           >
-            Sign up for Free
+            Inscription gratuite
           </Link>
         </div>
       )}
@@ -113,6 +112,7 @@ const HomeNavbar = () => {
 };
 
 export default HomeNavbar;
+
 
 
 

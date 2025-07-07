@@ -1,33 +1,3 @@
-// import React from "react";
-// import emailjs from "@emailjs/browser";
-
-// export default function ContactTest() {
-//   const sendEmail = (e) => {
-//     e.preventDefault();
-
-//     emailjs
-//       .sendForm(
-//         "service_rl2tjta",
-//         "template_r83gwhg",
-//         e.target,
-//         "ksUcNdwuTHwxYojvs"
-//       )
-//       .then(
-//         (result) => alert("Email envoyé !"),
-//         (error) => alert("Erreur : " + error.text)
-//       );
-//   };
-
-//   return (
-//     <form onSubmit={sendEmail}>
-//       <input type="text" name="name" placeholder="Nom" required />
-//       <input type="email" name="email" placeholder="Email" required />
-//       <textarea name="message" placeholder="Message" required></textarea>
-//       <button type="submit">Envoyer</button>
-//     </form>
-//   );
-// }
-
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
