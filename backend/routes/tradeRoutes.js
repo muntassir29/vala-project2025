@@ -1,28 +1,42 @@
 const express = require('express');
 const router = express.Router();
-const { createTrade, getTrades, updateTrade, deleteTrade, getTradeStats, searchTrades, getStrategyStats, getMonthlyStats } = require('../controllers/tradeController');
+const {
+  createTrade,
+  getTrades,
+  updateTrade,
+  deleteTrade,
+  getTradeStats,
+  searchTrades,
+  getStrategyStats,
+  getMonthlyStats
+} = require('../controllers/tradeController');
 const { protect } = require('../middleware/authMiddleware');
 const upload = require('../middleware/uploadMiddleware');
 
-// Route protégée : créer un trade
-router.post('/', protect, createTrade);
-// Route protégée : récupérer les trades
-router.get('/', protect, getTrades);
-// Route protégée : Updates les trades
-router.put('/:id', updateTrade);
-// Route protégée : Supprimé les trades
-router.delete('/:id', deleteTrade);
-// Route protégée : Stats les trades
-router.get('/stats', protect, getTradeStats);
-// Route protégée : filtrer les trades
-router.get('/search', protect, searchTrades);
-// Route protégée : Shema Statistique
-router.get('/strategies/stats', protect, getStrategyStats);
-// Stats mensuelles
+/**
+ * 🚨 IMPORTANT:
+ * Place static routes BEFORE dynamic ones like "/:id"
+ * Otherwise, Express + path-to-regexp may interpret paths like "/stats" as ":id"
+ */
+
+// ✅ Static routes FIRST
 router.get('/stats/monthly', protect, getMonthlyStats);
+router.get('/strategies/stats', protect, getStrategyStats);
+router.get('/stats', protect, getTradeStats);
+router.get('/search', protect, searchTrades);
 
+// ✅ Main collection routes
+router.post('/', protect, createTrade);
+router.get('/', protect, getTrades);
 
-// Route upload image (screenshot) associée à un trade
+// ✅ Dynamic routes LAST (to prevent path-to-regexp conflict)
+router.put('/:id', updateTrade);
+router.delete('/:id', deleteTrade);
+
+// Optional: add a GET by ID route if needed
+// router.get('/:id', protect, getTradeById);
+
+// ✅ Upload route (also uses :id)
 router.post('/:id/upload', protect, upload.single('screenshot'), async (req, res) => {
   try {
     const tradeId = req.params.id;
