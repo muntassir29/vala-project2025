@@ -14,8 +14,14 @@ connectDB();
 
 const app = express();
 
+
 // Middleware
-app.use(cors());
+if(process.env.NODE_ENV !== 'production') {
+  app.use(cors({
+    origin: 'http://localhost:5173', // Frontend URL
+    credentials: true, // Pour les cookies
+  }));
+}
 app.use(express.json()); // pour lire le JSON dans les requêtes
 
 // Routes
@@ -44,6 +50,15 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 
+if(process.env.NODE_ENV === 'production') {
+  // Serve les fichiers statiques de React
+  app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+  // Gérer les routes pour l'application React
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend', "build", "index.html"));
+  });
+}
 
 // Port
 const PORT = process.env.PORT || 5000;
