@@ -52,8 +52,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // -------------------- Serve Frontend in Production --------------------
 
 if (process.env.NODE_ENV === 'production') {
-  const buildPath = path.join(__dirname, 'build'); // 'build' = where Vite's dist is copied
-
+  const buildPath = path.join(__dirname, 'build');
   app.use(express.static(buildPath));
 
   app.get('*', (req, res) => {
