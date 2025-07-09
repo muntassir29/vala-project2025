@@ -25,9 +25,11 @@ if(process.env.NODE_ENV !== 'production') {
 app.use(express.json()); // pour lire le JSON dans les requêtes
 
 // Routes
-app.get('/', (req, res) => {
-  res.send('API Trading Journal is running ✅');
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.get('/', (req, res) => {
+    res.send('API Trading Journal is running ✅');
+  });
+}
 
 const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
