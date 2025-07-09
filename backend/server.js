@@ -6,54 +6,63 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const path = require('path');
 
-// Load environment variables
+// Charger les variables d’environnement
 dotenv.config();
 
-// Connect to MongoDB
+// Connexion à la base de données MongoDB
 connectDB();
 
 const app = express();
 
-// Middleware
+// Middleware CORS pour le développement uniquement
 if (process.env.NODE_ENV !== 'production') {
   app.use(
     cors({
-      origin: 'http://localhost:5173', // Frontend URL for dev
-      credentials: true, // For cookies
+      origin: 'http://localhost:5173', // URL de votre frontend local (Vite)
+      credentials: true,
     })
   );
 }
-app.use(express.json()); // To parse JSON requests
 
-// API Routes
-const authRoutes = require('./routes/authRoutes');
-const tradeRoutes = require('./routes/tradeRoutes');
-const noteRoutes = require('./routes/noteRoutes');
-const goalRoutes = require('./routes/goalRoutes');
+// Middleware JSON
+app.use(express.json());
 
-app.use('/api/auth', authRoutes);
-app.use('/api/trades', tradeRoutes);
-app.use('/api/notes', noteRoutes);
-app.use('/api/goals', goalRoutes);
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// Health check route (dev only)
+// Routes de test
 if (process.env.NODE_ENV !== 'production') {
   app.get('/', (req, res) => {
     res.send('API Trading Journal is running ✅');
   });
 }
 
-// Serve frontend in production
+// Importation des routes
+const authRoutes = require('./routes/authRoutes');
+const tradeRoutes = require('./routes/tradeRoutes');
+const noteRoutes = require('./routes/noteRoutes');
+const goalRoutes = require('./routes/goalRoutes');
+
+// Utilisation des routes
+app.use('/api/auth', authRoutes);
+app.use('/api/trades', tradeRoutes);
+app.use('/api/notes', noteRoutes);
+app.use('/api/goals', goalRoutes);
+
+// Servir les fichiers uploadés
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// -------------------- Serve Frontend in Production --------------------
+
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.resolve(__dirname, 'build')));
+  const buildPath = path.join(__dirname, 'build'); // 'build' = where Vite's dist is copied
+
+  app.use(express.static(buildPath));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+    res.sendFile(path.join(buildPath, 'index.html'));
   });
 }
 
-// Server
+// -------------------- Start Server --------------------
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
