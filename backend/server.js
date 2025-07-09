@@ -14,55 +14,54 @@ connectDB();
 
 const app = express();
 
-
-// Middleware
-if(process.env.NODE_ENV !== 'production') {
-  app.use(cors({
-    origin: 'http://localhost:5173', // Frontend URL
-    credentials: true, // Pour les cookies
-  }));
+// Middleware CORS pour le développement uniquement
+if (process.env.NODE_ENV !== 'production') {
+  app.use(
+    cors({
+      origin: 'http://localhost:5173', // URL de votre frontend local (Vite)
+      credentials: true,
+    })
+  );
 }
-app.use(express.json()); // pour lire le JSON dans les requêtes
 
-// Routes
+// Middleware JSON
+app.use(express.json());
+
+// Routes de test
 if (process.env.NODE_ENV !== 'production') {
   app.get('/', (req, res) => {
     res.send('API Trading Journal is running ✅');
   });
 }
 
+// Importation des routes
 const authRoutes = require('./routes/authRoutes');
-app.use('/api/auth', authRoutes);
-
-
 const tradeRoutes = require('./routes/tradeRoutes');
-app.use('/api/trades', tradeRoutes);
-
-
-// Routes NOTES
 const noteRoutes = require('./routes/noteRoutes');
-app.use('/api/notes', noteRoutes);
-
-// Routes GOAL
 const goalRoutes = require('./routes/goalRoutes');
+
+// Utilisation des routes
+app.use('/api/auth', authRoutes);
+app.use('/api/trades', tradeRoutes);
+app.use('/api/notes', noteRoutes);
 app.use('/api/goals', goalRoutes);
 
-// Routes UPLOAD
+// Servir les fichiers uploadés
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// -------------------- Serve Frontend in Production --------------------
 
+if (process.env.NODE_ENV === 'production') {
+  const buildPath = path.join(__dirname, 'build');
+  app.use(express.static(buildPath));
 
-if(process.env.NODE_ENV === 'production') {
-  // Serve les fichiers statiques de React
-  app.use(express.static(path.join(__dirname, '../frontend/build')));
-
-  // Gérer les routes pour l'application React
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend', "build", "index.html"));
+    res.sendFile(path.join(buildPath, 'index.html'));
   });
 }
 
-// Port
+// -------------------- Start Server --------------------
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
