@@ -15,12 +15,12 @@
 import axios from "axios";
 
 const BASE_URL = import.meta.env.MODE === "development" 
-  ? "http://localhost:9000/api"  // attention ici le port est 9000 (d'après ton log render)
-  : "https://journaltrading-mr0j.onrender.com/api"; // URL backend render
+  ? "http://localhost:9000/api"
+  : "https://trading-journal-am1b.onrender.com/api";
 
 const axiosInstance = axios.create({
-    baseURL: BASE_URL,
-    withCredentials: true,
+  baseURL: BASE_URL,
+  // withCredentials: true, // décommente si tu utilises cookies
 });
 
 export default axiosInstance;
