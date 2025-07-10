@@ -361,7 +361,7 @@
 // export default Stats;
 
 import { useEffect, useState } from "react";
-import axiosInstance from "../services/axiosInstance";
+import axiosInstance from "../api/axiosInstance";
 import {
   BarChart,
   Bar,
