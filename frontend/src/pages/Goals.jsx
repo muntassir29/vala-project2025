@@ -288,7 +288,7 @@ import {
   FaLightbulb,
 } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import axiosInstance from '../services/axiosInstance';
+import axiosInstance from '../api/axiosInstance';
 import { motion } from 'framer-motion';
 
 const conseils = [
