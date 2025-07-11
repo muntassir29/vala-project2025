@@ -361,7 +361,6 @@ import { useEffect, useState } from "react";
 import TradeForm from "../components/TradeForm";
 import TradeList from "../components/TradeList";
 import CalendarView from "../components/CalendarView";
-import Layout from "../components/Layout";
 import { useAuth } from "../context/AuthContext";
 import axiosInstance from "../api/axiosInstance";
 import { Loader2, Lightbulb, NotebookPen, BarChart4 } from "lucide-react";
@@ -391,86 +390,85 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Layout>
-      <div className="py-6">
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-black mb-6 sm:mb-8 text-center">
-          📊 Mon Dashboard
-        </h1>
+    <div className="flex-1 px-4 sm:px-6 max-w-7xl mx-auto w-full py-6">
+      <h1 className="text-3xl sm:text-4xl font-extrabold text-black mb-6 sm:mb-8 text-center">
+        📊 Mon Dashboard
+      </h1>
 
-        {/* Formulaire */}
-        <div className="bg-white/10 backdrop-blur-sm p-4 sm:p-6 rounded-2xl shadow-lg mb-6 sm:mb-8">
-          <TradeForm onTradeCreated={fetchTrades} />
+      {/* Formulaire */}
+      <div className="bg-white/10 backdrop-blur-sm p-4 sm:p-6 rounded-2xl shadow-lg mb-6 sm:mb-8">
+        <TradeForm onTradeCreated={fetchTrades} />
+      </div>
+
+      {/* Bloc 50/50 */}
+      <div className="flex flex-col lg:flex-row gap-6 mb-6 sm:mb-8">
+        {/* Liste des trades */}
+        <div className="w-full lg:w-1/2 bg-white/5 p-4 sm:p-6 rounded-2xl shadow-inner min-h-[300px]">
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-20 text-white">
+              <Loader2 className="h-10 w-10 animate-spin mb-4 text-sky-400" />
+              <p className="text-lg">Chargement des trades...</p>
+            </div>
+          ) : (
+            <TradeList trades={trades} onDelete={fetchTrades} token={token} />
+          )}
         </div>
 
-        {/* Bloc 50/50 */}
-        <div className="flex flex-col lg:flex-row gap-6 mb-6 sm:mb-8">
-          {/* Liste des trades */}
-          <div className="w-full lg:w-1/2 bg-white/5 p-4 sm:p-6 rounded-2xl shadow-inner min-h-[300px]">
-            {loading ? (
-              <div className="flex flex-col items-center justify-center py-20 text-white">
-                <Loader2 className="h-10 w-10 animate-spin mb-4 text-sky-400" />
-                <p className="text-lg">Chargement des trades...</p>
-              </div>
-            ) : (
-              <TradeList trades={trades} onDelete={fetchTrades} token={token} />
-            )}
+        {/* Conseils */}
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          className="w-full lg:w-1/2 bg-white rounded-2xl p-4 sm:p-6 shadow-lg"
+        >
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 flex items-center">
+            <NotebookPen className="w-5 h-5 mr-2 text-sky-500" />
+            L’importance du journal de trading
+          </h2>
+
+          <ul className="space-y-3 text-gray-700">
+            <li className="flex items-start">
+              <Lightbulb className="w-5 h-5 text-yellow-500 mt-1 mr-3" />
+              <span>
+                <strong>Apprends de tes erreurs :</strong> noter tes trades permet d’éviter de les répéter.
+              </span>
+            </li>
+            <li className="flex items-start">
+              <BarChart4 className="w-5 h-5 text-green-500 mt-1 mr-3" />
+              <span>
+                <strong>Analyse tes performances :</strong> tu verras clairement ce qui fonctionne pour toi.
+              </span>
+            </li>
+            <li className="flex items-start">
+              <NotebookPen className="w-5 h-5 text-sky-500 mt-1 mr-3" />
+              <span>
+                <strong>Développe ta discipline :</strong> tenir un journal te rend plus rigoureux et plus pro.
+              </span>
+            </li>
+          </ul>
+
+          <div className="mt-6 text-gray-600 text-sm italic">
+            ✨ *Un bon trader est avant tout un bon élève de lui-même.*
           </div>
 
-          {/* Conseils */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="w-full lg:w-1/2 bg-white rounded-2xl p-4 sm:p-6 shadow-lg"
-          >
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 flex items-center">
-              <NotebookPen className="w-5 h-5 mr-2 text-sky-500" />
-              L’importance du journal de trading
-            </h2>
-
-            <ul className="space-y-3 text-gray-700">
-              <li className="flex items-start">
-                <Lightbulb className="w-5 h-5 text-yellow-500 mt-1 mr-3" />
-                <span>
-                  <strong>Apprends de tes erreurs :</strong> noter tes trades permet d’éviter de les répéter.
-                </span>
-              </li>
-              <li className="flex items-start">
-                <BarChart4 className="w-5 h-5 text-green-500 mt-1 mr-3" />
-                <span>
-                  <strong>Analyse tes performances :</strong> tu verras clairement ce qui fonctionne pour toi.
-                </span>
-              </li>
-              <li className="flex items-start">
-                <NotebookPen className="w-5 h-5 text-sky-500 mt-1 mr-3" />
-                <span>
-                  <strong>Développe ta discipline :</strong> tenir un journal te rend plus rigoureux et plus pro.
-                </span>
-              </li>
-            </ul>
-
-            <div className="mt-6 text-gray-600 text-sm italic">
-              ✨ *Un bon trader est avant tout un bon élève de lui-même.*
-            </div>
-
-            <img
-              src={globaltrade}
-              alt="Illustration journal de trading"
-              className="rounded-xl w-full h-auto mt-6 mb-4 shadow-sm transition-transform hover:scale-105"
-            />
-          </motion.div>
-        </div>
-
-        {/* Calendrier */}
-        <div className="bg-white/5 p-4 sm:p-6 rounded-2xl shadow-inner">
-          <CalendarView trades={trades} />
-        </div>
+          <img
+            src={globaltrade}
+            alt="Illustration journal de trading"
+            className="rounded-xl w-full h-auto mt-6 mb-4 shadow-sm transition-transform hover:scale-105"
+          />
+        </motion.div>
       </div>
-    </Layout>
+
+      {/* Calendrier */}
+      <div className="bg-white/5 p-4 sm:p-6 rounded-2xl shadow-inner">
+        <CalendarView trades={trades} />
+      </div>
+    </div>
   );
 };
 
 export default Dashboard;
+
 
 
 
