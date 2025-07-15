@@ -19,7 +19,7 @@ export default function Signup() {
     setMessage("");
 
     try {
-      const res = await axiosInstance.post("/auth/signup", {
+      const res = await axiosInstance.post("/auth/register", {
         fullname,
         email,
         password,
