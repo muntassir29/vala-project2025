@@ -93,80 +93,61 @@
 // }
 
 
-// src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
-import PrivateRoute from "./components/PrivateRoute";
 
-// Pages
+// Layout
+import Layout from "./components/Layout";
+
+// Pages publiques
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
-import Stats from "./pages/Stats";
-import Goals from "./pages/Goals";
-import Notes from "./pages/Notes";
+import Signup from "./pages/Signup";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Affiliates from "./pages/Affiliates";
 
-// Layout
-import Layout from "./components/Layout";
+// Pages privées
+import Dashboard from "./pages/Dashboard";
+import Stats from "./pages/Stats";
+import Goals from "./pages/Goals";
+import Notes from "./pages/Notes";
+
+// Autres composants
+import NotFound from "./pages/NotFound";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
     <AuthProvider>
       <Router>
         <Routes>
-          {/* Pages publiques */}
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/affiliates" element={<Affiliates />} />
+          {/* Pages publiques avec Layout */}
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/affiliates" element={<Affiliates />} />
+          </Route>
 
-          {/* Pages protégées avec Layout */}
+          {/* Pages privées avec Layout + auth */}
           <Route
-            path="/dashboard"
             element={
               <PrivateRoute>
-                <Layout>
-                  <Dashboard />
-                </Layout>
+                <Layout />
               </PrivateRoute>
             }
-          />
-          <Route
-            path="/stats"
-            element={
-              <PrivateRoute>
-                <Layout>
-                  <Stats />
-                </Layout>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/goals"
-            element={
-              <PrivateRoute>
-                <Layout>
-                  <Goals />
-                </Layout>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/notes"
-            element={
-              <PrivateRoute>
-                <Layout>
-                  <Notes />
-                </Layout>
-              </PrivateRoute>
-            }
-          />
+          >
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/stats" element={<Stats />} />
+            <Route path="/goals" element={<Goals />} />
+            <Route path="/notes" element={<Notes />} />
+          </Route>
+
+          {/* 404 */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </AuthProvider>
@@ -174,6 +155,10 @@ function App() {
 }
 
 export default App;
+
+
+
+
 
 
 
